@@ -25,8 +25,8 @@ module.exports = function (acorn) {
           total = total * radix + val
           acceptUnderscore = true
         }
-        if (!acceptUnderscore) this.raise(this.pos - 1, "Invalid numeric separator")
         if (this.pos === start) return null
+        if (!acceptUnderscore) this.raise(this.pos - 1, "Invalid numeric separator")
 
         return total
       }

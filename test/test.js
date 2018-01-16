@@ -259,4 +259,44 @@ describe("acorn-numeric-separator", function () {
       )
     })
   })
+
+  // Make sure we didn't break anything
+  test("123..toString(10)", {
+    type: "ExpressionStatement",
+    start: 0,
+    end: 17,
+    expression: {
+      type: "CallExpression",
+      start: 0,
+      end: 17,
+      callee: {
+        type: "MemberExpression",
+        start: 0,
+        end: 13,
+        object: {
+          type: "Literal",
+          start: 0,
+          end: 4,
+          raw: "123.",
+          value: 123
+        },
+        property: {
+          type: "Identifier",
+          start: 5,
+          end: 13,
+          name: "toString"
+        },
+        computed: false,
+      },
+      arguments: [
+        {
+          type: "Literal",
+          start: 14,
+          end: 16,
+          raw: "10",
+          value: 10
+        }
+      ],
+    }
+  })
 })
