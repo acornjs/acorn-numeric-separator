@@ -9,7 +9,7 @@ module.exports = function (acorn) {
         if (len != null) return superF.call(this, radix, len)
 
         let start = this.pos, total = 0, acceptUnderscore = false
-        for (let i = 0, e = len == null ? Infinity : len; i < e; ++i) {
+        for (;;) {
           let code = this.input.charCodeAt(this.pos), val
           if (code >= 97) val = code - 97 + 10 // a
           else if (code == 95) {
@@ -26,7 +26,7 @@ module.exports = function (acorn) {
           acceptUnderscore = true
         }
         if (!acceptUnderscore) this.raise(this.pos - 1, "Invalid numeric separator")
-        if (this.pos === start || len != null && this.pos - start !== len) return null
+        if (this.pos === start) return null
 
         return total
       }
