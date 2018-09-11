@@ -1,11 +1,13 @@
 "use strict"
 
 const assert = require("assert")
-const acorn = require("..")
+const acorn = require("acorn")
+const numericSeparator = require("..")
+const Parser = acorn.Parser.extend(numericSeparator)
 
 function test(text, expectedResult, additionalOptions) {
   it(text, function () {
-    const result = acorn.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
+    const result = Parser.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
     assert.deepEqual(result.body[0], expectedResult)
   })
 }
@@ -13,7 +15,7 @@ function testFail(text, expectedError, additionalOptions) {
   it(text, function () {
     let failed = false
     try {
-      acorn.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
+      Parser.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
     } catch (e) {
       assert.equal(e.message, expectedError)
       failed = true

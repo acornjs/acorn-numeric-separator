@@ -8,24 +8,12 @@ It implements support for numeric separators as defined in the stage 3 proposal 
 
 ## Usage
 
-You can use this module directly in order to get an Acorn instance with the plugin installed:
+This module provides a plugin that can be used to extend the Acorn `Parser` class to parse numeric separators:
 
 ```javascript
-var acorn = require('acorn-numeric-separator');
-```
-
-Or you can use `inject.js` for injecting the plugin into your own version of Acorn like this:
-
-```javascript
-var acorn = require('acorn-numeric-separator/inject')(require('./custom-acorn'));
-```
-
-Then, use the `plugins` option to enable the plugiin:
-
-```javascript
-var ast = acorn.parse(code, {
-  plugins: { numericSeparator: true }
-});
+var acorn = require('acorn');
+var numericSeparator = require('acorn-numeric-separator');
+acorn.Parser.extend(numericSeparator).parse('100_000');
 ```
 
 ## License
