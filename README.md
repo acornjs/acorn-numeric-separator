@@ -18,5 +18,4 @@ acorn.Parser.extend(numericSeparator).parse('100_000');
 
 ## License
 
-This plugin is released under the [GNU Affero General Public License](./LICENSE).
-Please feel free to open an issue if this choice of license is a problem for your use-case.
+This plugin is released under an [MIT License](./LICENSE).
