@@ -2,16 +2,17 @@
 
 const path = require("path")
 const run = require("test262-parser-runner")
-const parse = require(".").parse
+const acorn = require("acorn")
+const Parser = acorn.Parser.extend(require("."))
 
-const unsupportedFeatures = ["object-rest", "object-spread", "regexp-named-groups",
-  "async-iteration", "class-fields", "class-fields-public",
-  "computed-property-names", // Only used for class fields
-  "regexp-unicode-property-escapes", "BigInt",
-  "regexp-lookbehind", "regexp-dotall", "optional-catch-binding"]
+const unsupportedFeatures = [
+  "async-iteration",
+  "class-fields-private",
+  "class-fields-public"
+]
 
 run(
-  (content, options) => parse(content, {sourceType: options.sourceType, ecmaVersion: 9, plugins: { numericSeparator: true }}),
+  (content, options) => Parser.parse(content, {sourceType: options.sourceType, ecmaVersion: 9}),
   {
     testsDirectory: path.dirname(require.resolve("test262/package.json")),
     skip: test => (!test.attrs.features || !test.attrs.features.includes("numeric-separator-literal") || unsupportedFeatures.some(f => test.attrs.features.includes(f))),
