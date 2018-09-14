@@ -8,7 +8,7 @@ const Parser = acorn.Parser.extend(numericSeparator)
 function test(text, expectedResult, additionalOptions) {
   it(text, function () {
     const result = Parser.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
-    assert.deepEqual(result.body[0], expectedResult)
+    assert.deepStrictEqual(result.body[0], expectedResult)
   })
 }
 function testFail(text, expectedError, additionalOptions) {
@@ -17,12 +17,14 @@ function testFail(text, expectedError, additionalOptions) {
     try {
       Parser.parse(text, Object.assign({ ecmaVersion: 9, plugins: { numericSeparator: true } }, additionalOptions))
     } catch (e) {
-      assert.equal(e.message, expectedError)
+      assert.strictEqual(e.message, expectedError)
       failed = true
     }
     assert(failed)
   })
 }
+
+const newNode = (start, props) => Object.assign(new acorn.Node({options: {}}, start), props)
 
 describe("acorn-numeric-separator", function () {
   testFail("'\\u{12_34}'", "Bad character escape sequence (1:4)")
@@ -30,52 +32,45 @@ describe("acorn-numeric-separator", function () {
   testFail("let a\\u{12_34} = 5", "Bad character escape sequence (1:8)")
 
   const digits = [
-    {d: "1_0", ast: start => ({
+    {d: "1_0", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 3,
       value: 10,
       raw: "1_0",
     })},
-    {d: "12e3_4", ast: start => ({
+    {d: "12e3_4", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 6,
       value: 12e34,
       raw: "12e3_4",
     })},
-    {d: "1_2e34", ast: start => ({
+    {d: "1_2e34", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 6,
       value: 12e34,
       raw: "1_2e34",
     })},
-    {d: "0b1010_1001", ast: start => ({
+    {d: "0b1010_1001", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 11,
       value: 169,
       raw: "0b1010_1001",
     })},
-    {d: "0xA0_B0_C0", ast: start => ({
+    {d: "0xA0_B0_C0", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 10,
       value: 0xa0b0c0,
       raw: "0xA0_B0_C0",
     })},
-    {d: "0o70_60_50", ast: start => ({
+    {d: "0o70_60_50", ast: start => newNode(start, {
       type: "Literal",
-      start: start,
       end: start + 10,
       value: 0o706050,
       raw: "0o70_60_50",
     })},
 
-    {d: "_2", ast: start => ({
+    {d: "_2", ast: start => newNode(start, {
       type: "Identifier",
-      start: start,
       end: start + 2,
       name: "_2",
     })},
@@ -96,160 +91,136 @@ describe("acorn-numeric-separator", function () {
     {d: "0_4_3_2", error: start => `Invalid number (1:${start})`},
   ]
   const statements = [
-    {s: "let i = %s", ast: content => ({
+    {s: "let i = %s", ast: content => newNode(0, {
       type: "VariableDeclaration",
-      start: 0,
       end: content.end,
       kind: "let",
-      declarations: [{
+      declarations: [newNode(4, {
         type: "VariableDeclarator",
-        start: 4,
         end: content.end,
-        id: {
+        id: newNode(4, {
           type: "Identifier",
-          start: 4,
           end: 5,
           name: "i"
-        },
+        }),
         init: content
-      }]
+      })]
     })},
 
-    {s: "i = %s", ast: content => ({
+    {s: "i = %s", ast: content => newNode(0, {
       type: "ExpressionStatement",
-      start: 0,
       end: content.end,
-      expression: {
+      expression: newNode(0, {
         type: "AssignmentExpression",
-        start: 0,
         end: content.end,
         operator: "=",
-        left: {
+        left: newNode(0, {
           type: "Identifier",
-          start: 0,
           end: 1,
           name: "i"
-        },
+        }),
         right: content
-      }
+      })
     })},
 
-    {s: "((i = %s) => {})", ast: content => ({
+    {s: "((i = %s) => {})", ast: content => newNode(0, {
       type: "ExpressionStatement",
-      start: 0,
       end: content.end + 8,
-      expression: {
+      expression: newNode(1, {
         type: "ArrowFunctionExpression",
-        start: 1,
         end: content.end + 7,
         id: null,
         generator: false,
         expression: false,
         async: false,
         params: [
-          {
+          newNode(2, {
             type: "AssignmentPattern",
-            start: 2,
             end: content.end,
-            left: {
+            left: newNode(2, {
               type: "Identifier",
-              start: 2,
               end: 3,
               name: "i"
-            },
+            }),
             right: content
-          }
+          })
         ],
-        body: {
+        body: newNode(content.end + 5, {
           type: "BlockStatement",
-          start: content.end + 5,
           end: content.end + 7,
           body: []
-        }
-      }
+        })
+      })
     })},
 
-    {s: "for (let i = 10; i < %s;++i) {}", ast: content => ({
+    {s: "for (let i = 10; i < %s;++i) {}", ast: content => newNode(0, {
       type: "ForStatement",
-      start: 0,
       end: content.end + 8,
-      init: {
+      init: newNode(5, {
         type: "VariableDeclaration",
-        start: 5,
         end: 15,
         declarations: [
-          {
+          newNode(9, {
             type: "VariableDeclarator",
-            start: 9,
             end: 15,
-            id: {
+            id: newNode(9, {
               type: "Identifier",
-              start: 9,
               end: 10,
               name: "i"
-            },
-            init: {
+            }),
+            init: newNode(13, {
               type: "Literal",
-              start: 13,
               end: 15,
               value: 10,
               raw: "10"
-            }
-          }
+            })
+          })
         ],
         kind: "let"
-      },
-      test: {
+      }),
+      test: newNode(17, {
         type: "BinaryExpression",
-        start: 17,
         end: content.end,
-        left: {
+        left: newNode(17, {
           type: "Identifier",
-          start: 17,
           end: 18,
           name: "i"
-        },
+        }),
         operator: "<",
         right: content
-      },
-      update: {
+      }),
+      update: newNode(content.end + 1, {
         type: "UpdateExpression",
-        start: content.end + 1,
         end: content.end + 4,
         operator: "++",
         prefix: true,
-        argument: {
+        argument: newNode(content.end + 3, {
           type: "Identifier",
-          start: content.end + 3,
           end: content.end + 4,
           name: "i"
-        }
-      },
-      body: {
+        })
+      }),
+      body: newNode(content.end + 6, {
         type: "BlockStatement",
-        start: content.end + 6,
         end: content.end + 8,
         body: []
-      }
+      })
     })},
 
-    {s: "i + %s", ast: content => ({
+    {s: "i + %s", ast: content => newNode(0, {
       type: "ExpressionStatement",
-      start: 0,
       end: content.end,
-      expression: {
+      expression: newNode(0, {
         type: "BinaryExpression",
-        start: 0,
         end: content.end,
-        left: {
+        left: newNode(0, {
           type: "Identifier",
-          start: 0,
           end: 1,
           name: "i"
-        },
+        }),
         operator: "+",
         right: content
-      }
+      })
     })}
   ]
   statements.forEach(statement => {
@@ -263,42 +234,37 @@ describe("acorn-numeric-separator", function () {
   })
 
   // Make sure we didn't break anything
-  test("123..toString(10)", {
+  test("123..toString(10)", newNode(0, {
     type: "ExpressionStatement",
-    start: 0,
     end: 17,
-    expression: {
+    expression: newNode(0, {
       type: "CallExpression",
-      start: 0,
       end: 17,
-      callee: {
+      callee: newNode(0, {
         type: "MemberExpression",
-        start: 0,
         end: 13,
-        object: {
+        object: newNode(0, {
           type: "Literal",
-          start: 0,
           end: 4,
           raw: "123.",
           value: 123
-        },
-        property: {
+        }),
+        property: newNode(5, {
           type: "Identifier",
-          start: 5,
           end: 13,
           name: "toString"
-        },
+        }),
         computed: false,
-      },
+      }),
       arguments: [
-        {
+        newNode(14, {
           type: "Literal",
           start: 14,
           end: 16,
           raw: "10",
           value: 10
-        }
+        })
       ],
-    }
-  })
+    })
+  }))
 })
