@@ -6,9 +6,16 @@ const acorn = require("acorn")
 const Parser = acorn.Parser.extend(require("."))
 
 const unsupportedFeatures = [
-  "async-iteration",
+  "BigInt",
   "class-fields-private",
-  "class-fields-public"
+  "class-fields-public",
+  "class-methods-private",
+  "class-static-fields-private",
+  "class-static-fields-public",
+  "class-static-methods-private",
+  "dynamic-import",
+  "export-star-as-namespace-from-module",
+  "import.meta"
 ]
 
 run(
