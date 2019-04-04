@@ -1,3 +1,7 @@
+## 0.3.0 (2019-04-04)
+
+* Make compatible with acorn-bigint
+
 ## 0.2.0 (2018-09-14)
 
 * Update to new acorn 6 interface
