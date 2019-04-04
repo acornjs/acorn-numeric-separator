@@ -33,12 +33,17 @@ module.exports = function(Parser) {
     readNumber(startsWithDot) {
       const token = super.readNumber(startsWithDot)
       let octal = this.end - this.start >= 2 && this.input.charCodeAt(this.start) === 48
-      const stripped = this.input.slice(this.start, this.end).replace(/_/g, "")
+      const stripped = this.getNumberInput(this.start, this.end)
       if (stripped.length < this.end - this.start) {
         if (octal) this.raise(this.start, "Invalid number")
         this.value = parseFloat(stripped)
       }
       return token
+    }
+
+    // This is used by acorn-bigint
+    getNumberInput(start, end) {
+      return this.input.slice(start, end).replace(/_/g, "")
     }
   }
 }
