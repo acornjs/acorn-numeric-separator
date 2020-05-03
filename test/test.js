@@ -267,4 +267,5 @@ describe("acorn-numeric-separator", function () {
       ],
     })
   }))
+  testFail("08_0;", "Invalid number (1:0)")
 })
