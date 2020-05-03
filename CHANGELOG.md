@@ -1,3 +1,8 @@
+## 0.3.1 (2020-05-03)
+
+* Make compatible with acorn's bigint support
+* Mark as compatible with acorn@7
+
 ## 0.3.0 (2019-04-04)
 
 * Make compatible with acorn-bigint
