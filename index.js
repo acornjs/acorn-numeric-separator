@@ -116,6 +116,12 @@ function withAcornBigInt(acorn, Parser) {
       return this.finishToken(acorn.tokTypes.num, val)
     }
 
+    parseLiteral(value) {
+      const ret = super.parseLiteral(value)
+      if (ret.bigint) ret.bigint = ret.bigint.replace(/_/g, "")
+      return ret
+    }
+
     readRadixNumber(radix) {
       let start = this.pos;
       this.pos += 2; // 0x
