@@ -1,3 +1,7 @@
+## 0.3.2 (2020-05-06)
+
+* Also remove numeric separators in Literal's `bigint` property
+
 ## 0.3.1 (2020-05-03)
 
 * Make compatible with acorn's bigint support

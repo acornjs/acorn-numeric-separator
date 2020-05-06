@@ -21,7 +21,7 @@
   "peerDependencies": {
     "acorn": "^6 || ^7"
   },
-  "version": "0.3.1",
+  "version": "0.3.2",
   "devDependencies": {
     "acorn": "^7",
     "eslint": "^6",
