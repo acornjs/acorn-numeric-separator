@@ -1,5 +1,3 @@
-"use strict"
-
 function withoutAcornBigInt(acorn, Parser) {
   return class extends Parser {
     readInt(radix, len) {
@@ -144,7 +142,7 @@ function withAcornBigInt(acorn, Parser) {
   }
 }
 
-module.exports = function(Parser) {
+export default function numericSeparator(Parser) {
   const acorn = Parser.acorn || require("acorn")
   const withAcornBigIntSupport = (acorn.version.startsWith("6.") && !(acorn.version.startsWith("6.0.") || acorn.version.startsWith("6.1."))) || acorn.version.startsWith("7.")
 

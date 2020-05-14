@@ -1,3 +1,7 @@
+## 0.3.3 (2020-05-14)
+
+* Migrate to ESM
+
 ## 0.3.2 (2020-05-06)
 
 * Also remove numeric separators in Literal's `bigint` property
