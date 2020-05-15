@@ -12,7 +12,7 @@ This module provides a plugin that can be used to extend the Acorn `Parser` clas
 You can either choose to use it via CommonJS (for example in Node.js) like this
 
 ```javascript
-const [Parser} = require('acorn');
+const {Parser} = require('acorn');
 const numericSeparator = require('acorn-numeric-separator');
 Parser.extend(numericSeparator).parse('100_000');
 ```
