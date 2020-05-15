@@ -21,7 +21,7 @@ or as an ECMAScript module like this:
 
 ```javascript
 import {Parser} from 'acorn';
-import numericSeparator from 'path/to/acorn-numeric-separator.mjs';
+import numericSeparator from 'acorn-numeric-separator';
 Parser.extend(numericSeparator).parse('100_000');
 ```
 
