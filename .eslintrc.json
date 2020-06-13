@@ -81,7 +81,7 @@
         "function-paren-newline": "off",
         "generator-star-spacing": "error",
         "getter-return": "error",
-        "global-require": "error",
+        "global-require": "warn",
         "guard-for-in": "error",
         "handle-callback-err": "error",
         "id-blacklist": "error",
@@ -283,7 +283,7 @@
         ],
         "valid-jsdoc": "error",
         "vars-on-top": "off",
-        "wrap-regex": "error",
+        "wrap-regex": "off",
         "yield-star-spacing": "error",
         "yoda": [
             "error",

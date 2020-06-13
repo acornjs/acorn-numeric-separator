@@ -87,6 +87,7 @@ function withAcornBigInt(acorn, Parser) {
       let next = this.input.charCodeAt(this.pos)
       if (!octal && !startsWithDot && this.options.ecmaVersion >= 11 && next === 110) {
         let str = this.getNumberInput(start, this.pos)
+        // eslint-disable-next-line node/no-unsupported-features/es-builtins
         let val = typeof BigInt !== "undefined" ? BigInt(str) : null
         ++this.pos
         if (acorn.isIdentifierStart(this.fullCharCodeAtPos())) this.raise(this.pos, "Identifier directly after number")
@@ -123,15 +124,16 @@ function withAcornBigInt(acorn, Parser) {
     }
 
     readRadixNumber(radix) {
-      let start = this.pos;
-      this.pos += 2; // 0x
-      let val = this.readInt(radix);
-      if (val == null) { this.raise(this.start + 2, "Expected number in radix " + radix); }
+      let start = this.pos
+      this.pos += 2 // 0x
+      let val = this.readInt(radix)
+      if (val == null) { this.raise(this.start + 2, `Expected number in radix ${radix}`) }
       if (this.options.ecmaVersion >= 11 && this.input.charCodeAt(this.pos) === 110) {
         let str = this.getNumberInput(start, this.pos)
-        val = typeof BigInt !== "undefined" ? BigInt(str) : null;
-        ++this.pos;
-      } else if (acorn.isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
+        // eslint-disable-next-line node/no-unsupported-features/es-builtins
+        val = typeof BigInt !== "undefined" ? BigInt(str) : null
+        ++this.pos
+      } else if (acorn.isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number") }
       return this.finishToken(acorn.tokTypes.num, val)
     }
 
