@@ -142,6 +142,7 @@ function withAcornBigInt(acorn, Parser) {
   }
 }
 
+// eslint-disable-next-line node/no-unsupported-features/es-syntax
 export default function numericSeparator(Parser) {
   const acorn = Parser.acorn || require("acorn")
   const withAcornBigIntSupport = (acorn.version.startsWith("6.") && !(acorn.version.startsWith("6.0.") || acorn.version.startsWith("6.1."))) || acorn.version.startsWith("7.")

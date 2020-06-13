@@ -1,3 +1,4 @@
+// eslint-disable-next-line node/no-unsupported-features/es-syntax
 export default {
   input: "src/index.js",
   output: [

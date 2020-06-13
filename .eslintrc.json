@@ -3,6 +3,10 @@
         "es6": true,
         "node": true
     },
+    "overrides": [{
+      "files": ["rollup.config.js", "src/*"],
+      "parserOptions": { "sourceType": "module" }
+    }],
     "extends": ["eslint:recommended", "plugin:node/recommended"],
     "plugins": ["node"],
     "rules": {
