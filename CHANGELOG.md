@@ -1,3 +1,7 @@
+## 0.3.4 (2020-08-13)
+
+* Actually include ESM files in release
+
 ## 0.3.3 (2020-06-13)
 
 * Migrate to ESM
