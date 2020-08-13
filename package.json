@@ -23,16 +23,16 @@
     "lint": "eslint -c .eslintrc.json ."
   },
   "peerDependencies": {
-    "acorn": "^6 || ^7"
+    "acorn": "^6 || ^7 || ^8"
   },
   "version": "0.3.5",
   "devDependencies": {
-    "acorn": "^7",
+    "acorn": "^8",
     "eslint": "^6",
     "eslint-plugin-node": "^11",
     "mocha": "^7",
     "rollup": "^2.10.0",
-    "test262": "git+https://github.com/tc39/test262.git#a3c7d30cbb68ebcdc522df362dffbc31465b0d1d",
+    "test262": "git+https://github.com/tc39/test262.git#e0758bbeacac7776dae2a69f88eb4742f0930d7c",
     "test262-parser-runner": "^0.5.0"
   }
 }
