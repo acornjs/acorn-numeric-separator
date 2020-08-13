@@ -1,3 +1,7 @@
+## 0.3.6 (2020-08-13)
+
+* Mark as compatible with acorn@8
+
 ## 0.3.5 (2020-08-13)
 
 * Actually include ESM files in release
