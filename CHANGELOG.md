@@ -1,4 +1,4 @@
-## 0.3.4 (2020-08-13)
+## 0.3.5 (2020-08-13)
 
 * Actually include ESM files in release
 
